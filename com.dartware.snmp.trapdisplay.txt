@@ -1,0 +1,193 @@
+ <!--
+	SNMP Trap Viewer probe (com.dartware.snmp.trapdisplay.txt)
+	Probe for InterMapper (http://www.intermapper.com)
+
+	Copyright (c) 2007, Dartware, LLC.	
+	Feel free to use this as the basis for creating new probes. 
+
+	25 Apr 2005 Original version - reb
+	 4 May 2005 Changed to "custom-snmp-trap" -reb
+				Modified for IM 4.4 header/display items.
+     8 May 2007 Added special trap variables to the probe and display -reb
+    29 May 2007 Changed probe name to "Trap Display", updated description -reb
+     1 Jun 2007 Changed probe name to "Trap Viewer"; tweaked description;
+     			left canonical name alone -reb
+    16 Apr 2013 - Edited description for User Guide (via Probe Doc Generator)
+     
+-->
+
+<header>
+	"type"			=	"custom-snmp-trap"
+	"package"		=	"com.dartware"
+	"probe_name"	=	"snmp.trapdisplay"
+	"human_name"	=	"Trap Viewer"
+	"version"		=	"2.2"
+	"address_type"	=	"IP,AT"
+	"port_number"	=	"161"
+	"display_name"	=	"SNMP/Trap Viewer"
+
+</header>
+
+<description>
+\GB\SNMP Trap Viewer Probe\P\
+
+This probe listens for trap packets and displays the contents of a trap in the Status Window. It does not actively poll the device, and takes no action based on the contents of the trap. 
+
+All variables parsed from the trap packet appear in the device's Status Window. You can use this probe as a prototype for making your own trap probes.
+
+\B\How the Trap Viewer Probe Works\p\
+
+When a trap arrives, the probe parses the trap to retireve the values from the trap's header, along with the first ten items in its Varbind List. Each value is assigned to a variable for use by the probe; each is also shown in the Status Window.
+
+To see how this probe works, you can configure your equipment to send traps to InterMapper, or use the net-snmp \b\snmptrap\p\ command. Either way, the Status Window shows the values present in any traps that arrive.
+
+For more information on the \b\snmptrap\p\ command, see the net-snmp documentation for the \u2=http://www.net-snmp.org/tutorial/tutorial-4/commands/snmptrap.html\trap tutorial\p0\ and the \u2=http://www.net-snmp.org/docs/man/snmpinform.html\snmptrap command\0p\. The remainder of this note shows how to send a trap with variables from the Dartware MIB:
+     
+\i\SNMPv1 Traps\p\
+     
+a) Add a device to a map with the IP address \i\192.168.56.78\p\
+b) Set it to use this probe
+c) Issue the snmptrap command below from the command line (it should all be on one line):
+     
+     snmptrap -v 1 -c commString localhost 
+          1.3.6.1.4.1.6306 192.168.56.78 6 123 4567890 
+          1.3.6.1.4.1.6306.2.1.1.0 s "05/08 23:26:35"
+          1.3.6.1.4.1.6306.2.1.2.0 s Critical 
+          1.3.6.1.4.1.6306.2.1.3.0 s "Big Router" 
+          1.3.6.1.4.1.6306.2.1.4.0 s "Critical: High Traffic" 
+          1.3.6.1.4.1.6306.2.1.5.0 s "127.0.0.1" 
+          1.3.6.1.4.1.6306.2.1.6.0 s "SNMP Traffic Probe" 
+          
+\i\SNMPv2c Traps\p\
+     
+a) Add a device to the map with an IP address of \i\localhost\p\
+b) Set it to use this probe
+c) Issue the snmptrap command below from the command line (it should all be on one line)
+     
+     snmptrap -v 2c -c commString localhost 
+          4567890 1.3.6.1.4.1.6306 
+          1.3.6.1.4.1.6306 192.168.56.78 6 123 4567890 
+          1.3.6.1.4.1.6306.2.1.1.0 s "05/08 13:26:35"
+          1.3.6.1.4.1.6306.2.1.2.0 s Critical 
+          1.3.6.1.4.1.6306.2.1.3.0 s "Big Router" 
+          1.3.6.1.4.1.6306.2.1.4.0 s "Critical: High Traffic" 
+          1.3.6.1.4.1.6306.2.1.5.0 s "127.0.0.1" 
+          1.3.6.1.4.1.6306.2.1.6.0 s "SNMP Traffic Probe" 
+          
+\b\Note:\p\ This probe file contains the lines above in a single-line format suitable for copying and pasting.
+
+</description>
+
+<!-- Copy/paste these lines into the terminal window for testing...
+
+snmptrap -v 1  -c commString localhost 1.3.6.1.4.1.6306 192.168.56.78 6 123 4567890  1.3.6.1.4.1.6306.2.1.1.0 s "05/08 13:26:35" 1.3.6.1.4.1.6306.2.1.2.0 s Critical 1.3.6.1.4.1.6306.2.1.3.0 s "Big Router" 1.3.6.1.4.1.6306.2.1.4.0 s "Critical: High Traffic" 1.3.6.1.4.1.6306.2.1.5.0 s "127.0.0.1" 1.3.6.1.4.1.6306.2.1.6.0 s "SNMP Traffic Probe" 
+
+snmptrap -v 1 -c commString localhost 1.3.6.1.4.1.6306 192.168.56.78 6 123 4567890 1.3.6.1.4.1.6306.2.1.1.0 s "05/08 13:26:35" 1.3.6.1.4.1.6306.2.1.2.0 s Critical 1.3.6.1.4.1.6306.2.1.3.0 s "Big Router" 1.3.6.1.4.1.6306.2.1.4.0 s "Critical: High Traffic" 1.3.6.1.4.1.6306.2.1.5.0 s "127.0.0.1" 1.3.6.1.4.1.6306.2.1.6.0 s "SNMP Traffic Probe" 1.3.6.1.4.1.6306.2.1.7.0 s "var7" 1.3.6.1.4.1.6306.2.1.8.0 s "var8" 1.3.6.1.4.1.6306.2.1.9.0 s "var9" 1.3.6.1.4.1.6306.2.1.10.0 s "var10" 1.3.6.1.4.1.6306.2.1.11.0 s "var11" 1.3.6.1.4.1.6306.2.1.12.0 s "var12"
+
+snmptrap -v 2c -c commString localhost 4567890 1.3.6.1.4.1.6306  1.3.6.1.4.1.6306.2.1.1.0 s "05/08 13:26:35" 1.3.6.1.4.1.6306.2.1.2.0 s Critical 1.3.6.1.4.1.6306.2.1.3.0 s "Big Router" 1.3.6.1.4.1.6306.2.1.4.0 s "Critical: High Traffic" 1.3.6.1.4.1.6306.2.1.5.0 s "127.0.0.1" 1.3.6.1.4.1.6306.2.1.6.0 s "SNMP Traffic Probe" 
+     
+-->
+
+-- The parameters in this probe are unused, but could be used to 
+-- set thresholds for various alarms.
+
+<parameters>
+	"MinValue"	=	"10"
+	"MaxValue"	=	"50"
+</parameters>
+
+<snmp-device-variables>  
+
+  -- TrapVariables are updated when a trap arrives. 
+  -- This set of variables comes from the Dartware MIB 
+  -- and would be sent in a trap from another copy of InterMapper.
+  
+  trapTimeStamp, 	1.3.6.1.4.1.6306.2.1.1.0, TRAPVARIABLE, "Timestamp" 
+  DeviceStatus,		1.3.6.1.4.1.6306.2.1.2.0, TRAPVARIABLE, "Status"
+  DeviceDNS,		1.3.6.1.4.1.6306.2.1.3.0, TRAPVARIABLE, "DNS Name of Device"
+  DeviceCondition,	1.3.6.1.4.1.6306.2.1.4.0, TRAPVARIABLE, "Condition String"
+  TrapSourceAdrs,	1.3.6.1.4.1.6306.2.1.5.0, TRAPVARIABLE, "Source of trap"
+  ProbeType,		1.3.6.1.4.1.6306.2.1.6.0, TRAPVARIABLE, "Probe that generated trap"
+  
+  -- Variables from the trap packet itself
+  
+  genericTrapVar, 		$GenericTrap, 		TRAPVARIABLE, 	"Generic Trap"
+  specificTrapVar, 		$SpecificTrap, 		TRAPVARIABLE, 	"Specific Trap"
+  timeStampVar, 		$TimeStamp, 		TRAPVARIABLE, 	"Timestamp"
+  enterpriseVar, 		$Enterprise, 		TRAPVARIABLE, 	"Enterprise"
+  commStringVar, 		$CommunityString, 	TRAPVARIABLE, 	"Community String"
+  trapOIDVar, 			$TrapOID, 			TRAPVARIABLE, 	"Trap OID"
+  agentAdrsVar, 		$AgentAddress, 		TRAPVARIABLE, 	"Agent Address"
+  senderAdrsVar, 		$SenderAddress, 	TRAPVARIABLE, 	"Sender Address"
+  snmpVersionVar, 		$SnmpVersion, 		TRAPVARIABLE, 	"SNMP Version"
+  varbindCountVar, 		$VarbindCount, 		TRAPVARIABLE, 	"Varbind Count"
+  
+  -- Positional names of Varbind List items
+  
+  vbVal1, 				$VarbindValue1, 	TRAPVARIABLE, 	"Value of Varbind1"
+  vbType1, 				$VarbindType1, 		TRAPVARIABLE, 	"Type of Varbind1"
+  vbOID1, 				$VarbindOID1, 		TRAPVARIABLE, 	"OID of Varbind1"
+  vbVal2, 				$VarbindValue2, 	TRAPVARIABLE, 	"Value of Varbind2"
+  vbType2, 				$VarbindType2, 		TRAPVARIABLE, 	"Type of Varbind2"
+  vbOID2, 				$VarbindOID2, 		TRAPVARIABLE, 	"OID of Varbind2"
+  vbVal3, 				$VarbindValue3, 	TRAPVARIABLE, 	"Value of Varbind3"
+  vbType3, 				$VarbindType3, 		TRAPVARIABLE, 	"Type of Varbind3"
+  vbOID3, 				$VarbindOID3, 		TRAPVARIABLE, 	"OID of Varbind3"
+  vbVal4, 				$VarbindValue4, 	TRAPVARIABLE, 	"Value of Varbind4"
+  vbType4, 				$VarbindType4, 		TRAPVARIABLE, 	"Type of Varbind4"
+  vbOID4, 				$VarbindOID4, 		TRAPVARIABLE, 	"OID of Varbind4"
+  vbVal5, 				$VarbindValue5, 	TRAPVARIABLE, 	"Value of Varbind5"
+  vbType5, 				$VarbindType5, 		TRAPVARIABLE, 	"Type of Varbind5"
+  vbOID5, 				$VarbindOID5, 		TRAPVARIABLE, 	"OID of Varbind5"
+  vbVal6, 				$VarbindValue6, 	TRAPVARIABLE, 	"Value of Varbind6"
+  vbType6, 				$VarbindType6, 		TRAPVARIABLE, 	"Type of Varbind6"
+  vbOID6, 				$VarbindOID6, 		TRAPVARIABLE, 	"OID of Varbind6"
+  vbVal7, 				$VarbindValue7, 	TRAPVARIABLE, 	"Value of Varbind7"
+  vbType7, 				$VarbindType7, 		TRAPVARIABLE, 	"Type of Varbind7"
+  vbOID7, 				$VarbindOID7, 		TRAPVARIABLE, 	"OID of Varbind7"
+  vbVal8, 				$VarbindValue8, 	TRAPVARIABLE, 	"Value of Varbind8"
+  vbType8, 				$VarbindType8, 		TRAPVARIABLE, 	"Type of Varbind8"
+  vbOID8, 				$VarbindOID8, 		TRAPVARIABLE, 	"OID of Varbind8"
+  vbVal9, 				$VarbindValue9, 	TRAPVARIABLE, 	"Value of Varbind9"
+  vbType9, 				$VarbindType9, 		TRAPVARIABLE, 	"Type of Varbind9"
+  vbOID9, 				$VarbindOID9, 		TRAPVARIABLE, 	"OID of Varbind9"
+  vbVal10, 				$VarbindValue10, 	TRAPVARIABLE, 	"Value of Varbind10"
+  vbType10, 			$VarbindType10, 	TRAPVARIABLE, 	"Type of Varbind10"
+  vbOID10, 				$VarbindOID10, 		TRAPVARIABLE, 	"OID of Varbind10"
+</snmp-device-variables>
+
+
+<snmp-device-display>
+
+\B5\Information about the Trap\0P\ 
+  \4\CommunityString:\0\  $commStringVar
+  \4\      TimeStamp:\0\  $timeStampVar
+  \4\   AgentAddress:\0\  $agentAdrsVar
+  \4\  SenderAddress:\0\  $senderAdrsVar
+  \4\    GenericTrap:\0\  $genericTrapVar \3IG\(v1 only) \P0M\
+  \4\   SpecificTrap:\0\  $specificTrapVar \3IG\(v1 only) \P0M\
+  \4\     Enterprise:\0\  $enterpriseVar \3IG\(v1 only) \P0M\
+  \4\        TrapOID:\0\  $trapOIDVar \3IG\(v2c only) \P0M\
+  \4\    SnmpVersion:\0\  $snmpVersionVar \3IG\(0=SNMPv1; 1=SNMPv2c) \P0M\
+  \4\   VarbindCount:\0\  $varbindCountVar \3IG\(total number of Varbinds) \P0M\
+
+\B5\Varbind List Items parsed by OID\0P\ 
+  \4\       TimeStamp:\0\  $trapTimeStamp \3IG\ \P0M\
+  \4\   Device Status:\0\  $deviceStatus \3IG\ \P0M\
+  \4\      Device DNS:\0\  $deviceDNS \3IG\  \P0M\
+  \4\Condition String:\0\  $deviceCondition \3IG\  \P0M\
+  \4\Trap Source Adrs:\0\  $TrapSourceAdrs \3IG\  \P0M\
+  \4\      Probe Type:\0\  $ProbeType \3IG\  \P0M\
+
+\B5\Varbind List Items by Position\0P\ \3IG\(Varbind Value / Varbind Type / Varbind OID) \P0M\
+  \4\ VarBindList #1:\0\  $vbVal1 / $vbType1 / $vbOID1
+  \4\ VarBindList #2:\0\  $vbVal2 / $vbType2 / $vbOID2
+  \4\ VarBindList #3:\0\  $vbVal3 / $vbType3 / $vbOID3
+  \4\ VarBindList #4:\0\  $vbVal4 / $vbType4 / $vbOID4
+  \4\ VarBindList #5:\0\  $vbVal5 / $vbType5 / $vbOID5
+  \4\ VarBindList #6:\0\  $vbVal6 / $vbType6 / $vbOID6
+  \4\ VarBindList #7:\0\  $vbVal7 / $vbType7 / $vbOID7
+  \4\ VarBindList #8:\0\  $vbVal8 / $vbType8 / $vbOID8
+  \4\ VarBindList #9:\0\  $vbVal9 / $vbType9 / $vbOID9
+  \4\VarBindList #10:\0\  $vbVal10 / $vbType10 / $vbOID10
+</snmp-device-display>
