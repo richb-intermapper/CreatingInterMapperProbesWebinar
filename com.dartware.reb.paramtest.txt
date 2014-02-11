@@ -1,0 +1,77 @@
+ <!--
+	Parameter Test Probe (com.dartware.paramtest.txt)
+    Custom Probe for InterMapper (http://www.intermapper.com)
+    Please feel free to use this as a base for further development.
+
+	10 May 2007 Cloned from High Threshold probe -reb
+	 
+	You can read the Developer Guide to learn more about InterMapper Probes. It's at:
+		http://dartware.com/go.php?to=intermapper.devguide
+-->
+
+<header>
+	"type"			=	"custom-snmp-file"
+	"package"		=	"com.dartware"
+	"probe_name"	=	"paramtest"
+	"human_name"	=	"Parameter Test"
+	"version"		=	"1.3"
+	"address_type"	=	"IP,AT"
+	"port_number"	=	"161"
+	"display_name"	=	"Miscellaneous/Test/Parameter Test"
+	"flags"			=	"NOLINKS, NOICMPFALLBACK, MINIMAL"
+</header>
+
+<snmp-device-properties>
+	nomib2="true"
+</snmp-device-properties>
+
+<description>
+\GB\Parameter Test Probe\P\
+
+This probe shows the various data types that can be used as parameters to a custom probe. It shows these parameter values in the Status Window as well.
+
+It also sets the device status based on the setting of the dropdown.
+
+</description>
+
+-- Parameters are user-settable values that the probe uses for its comparisons.
+-- Specify the default values here. The customer can change them and they will be retained for each device.
+
+<parameters>
+	"Text"										= 	"Text Value"
+	"Password*"									= 	""
+	"Check Me[true,false]"						=	"true"
+	"Five Choices[OK,Warn,Alarm,Critical,Down]"	=	"OK"
+</parameters>
+
+-- SNMP values to be retrieved from the device, and 
+-- Specify the variable name, its OID, a format (usually DEFAULT) and a short description.
+-- CALCULATION variables are computed from other values already retrieved from the device.
+ 
+<snmp-device-variables>
+
+</snmp-device-variables>
+
+-- Rules for setting the device severity
+
+<snmp-device-thresholds>
+
+    down: (${Five Choices[OK,Warn,Alarm,Critical,Down]} == "Down")  	"It's Down!"
+critical: (${Five Choices[OK,Warn,Alarm,Critical,Down]} == "Critical")  "It's Critical!"
+   alarm: (${Five Choices[OK,Warn,Alarm,Critical,Down]} == "Alarm")  	"It's in Alarm!"
+ warning: (${Five Choices[OK,Warn,Alarm,Critical,Down]} == "Warn")  	"It's in Warn!"
+    okay: (${Five Choices[OK,Warn,Alarm,Critical,Down]} == "OK")  		"It's OK!"
+
+</snmp-device-thresholds>
+
+-- The <snmp-device-display> section specifies the text that will be appended 
+-- to the device's Staus Window. 
+
+<snmp-device-display>
+\5B\Parameter Test Probe\P0\
+\4\    Text:\0\ $Text
+\4\Password:\0\ ${Password*}
+\4\Dropdown:\0\ ${Five Choices[OK,Warn,Alarm,Critical,Down]}
+\4\Checkbox:\0\ ${Check Me[true,false]}
+
+</snmp-device-display>
