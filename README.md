@@ -1,16 +1,9 @@
-##Creating InterMapper Probes Webinar
+##Creating InterMapper Probes Webinars
 
 This repository contains all the files that were used or mentioned during
-the Creating InterMapper Probes webinar held in January 2014.
-It has all the interesting files from the InterMapper Settings folder, 
-including:
+the Creating InterMapper Probes webinars that were held in January and February 2014.
+It has all the interesting files from the InterMapper Settings : Probes folder.
 
-- Probes folder
-- MIB Files folder
-- Web Pages folder
-
-as well as the "Creating InterMapper Probes-January 2014" 
-PowerPoint file used for the presentation.
 If you have git installed, you can use it to pull the repository, 
 or use the _Download ZIP_ button on the right to retrieve 
 the files to your own computer.
