@@ -1,0 +1,54 @@
+<!-- 
+	Everything's Wrong SNMP Probe
+-->
+
+<header>
+	type			= 	"custom-snmp"
+	package			= 	"com.intermapper"
+	probe_name		=	"wrongwrongwrong.snmp"
+	human_name		=	"Everything is Wrong"
+	version			= 	"0.3"
+	address_type	= 	"IP,AT"
+	port_number		=	"161"
+	flags			=   "NOLINKS"
+	display_name	=	"Miscellaneous/Test/Everything is Wrong"
+</header>
+
+<description>
+
+\gb\"Everything is Wrong" SNMP Probe\p\
+
+\b\Misspelled or missing SNMP variable name\p\
+
+Displays error when reloading probes. Might be due to misspelling in probe, or because MIB hasn't been imported.
+
+\b\Misspelled an InterMapper variable name\p\ 
+
+Displays "(Undefined: ifOutOctetss)" in Status Window
+
+\b\Incorrect numeric OID\p\ 
+
+Displays "[noSuchName]" in Status Window
+
+\b\"tooBigErr"\p\
+
+Displays "tooBigErr" as the Reason: in Status Window. Occurs when SNMP responses are too large to fit in a single SNMP response. Use <snmp-device-properties> to set maxvars=# smaller
+
+</description>
+
+<snmp-device-variables>
+
+--  VariableName,   ObjectID (OID),     	Format,     "Label for a chart"	
+    ifInOctets,     ifInOctets.13,      	PER-SECOND, "Rx #13"
+    ifOutOctets,    ifOtOctets.13,      	PER-SECOND, "Tx #13"
+	ifOutOctetsNum, 1.3.6.1.2.1.2.1.16.13,	PER-SECOND, "Should be 1.3.6.1.2.1.2.2.1.16.13"
+	                
+</snmp-device-variables>
+
+<snmp-device-display>
+<!-- Barebones SNMP Probe -->
+     Received Traffic: ${ifInOctets} bytes/second 
+  Transmitted Traffic: ${ifOutOctets} bytes/second
+  Wrong Variable Name: ${ifOutOctetss} bytes/second
+       ifOutOctetsNum: ${ifOutOctetsNum} bytes/sec
+</snmp-device-display>
