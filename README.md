@@ -13,11 +13,12 @@ the files to your own computer.
 
 You can view the recorded webinars, look at the presentation materials, and the Q&As for each session:
 
-- Webinar Part One: [Recording](https://skybot.webex.com/skybot/lsr.php?AT=pb&SP=EC&rID=74370642&rKey=24da99c9cc3c107b)
- [PDF](http://offers.skybotsoftware.com/intermapper/emails/2014/probes_contest/webinar_followup/Creating_Probes_Webinar_Handout.pdf)
- [Q&A](http://forums.intermapper.com/viewtopic.php?t=1912)
-- Webinar Part Two: [Recording](https://skybot.webex.com/skybot/lsr.php?RCID=97eb82736060eca308aa9f40f3d9c365)
- [PDF] [Q&A](http://forums.intermapper.com/viewtopic.php?t=1913)
+- Webinar Part One: [Webinar Recording](https://skybot.webex.com/skybot/lsr.php?AT=pb&SP=EC&rID=74370642&rKey=24da99c9cc3c107b)
+ , [PDF of the presentation](http://offers.skybotsoftware.com/intermapper/emails/2014/probes_contest/webinar_followup/Creating_Probes_Webinar_Handout.pdf)
+ , [Q&A from the session](http://forums.intermapper.com/viewtopic.php?t=1912)
+- Webinar Part Two: [Webinar Recording](https://skybot.webex.com/skybot/lsr.php?RCID=97eb82736060eca308aa9f40f3d9c365)
+ , [PDF of the presentation] 
+ , [Q&A from the session](http://forums.intermapper.com/viewtopic.php?t=1913)
 
 ### Other resources
  
